@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>ToDo List</title>
+    <link     href='static/css/styles.css'  rel='stylesheet' type='text/css'>
+</head>
+
+<body>
+
+    <div class="section section--submit">
+        <h2>Add new item:</h2>
+
+        <form action="/submit" method="POST">
+            <input type="text" name="task"></input>
+            <input type="text" name="email"></input>
+            <select name="priority">
+                <option value="default">Select Priority</option>
+                <option value="high">High</option>
+                <option value="medium">Medium</option>
+                <option value="low">Low</option>
+            </select>
+            <input type="submit" class="button" value="Submit"></input>
+        </form>
+    </div>
+
+    <div class='section section--display'>
+        <h2>Your ToDo list:</h2>
+        <table >
+            <thead>
+                <th>task</th>
+                <th>task's email</th>
+                <th>priority</th>
+                <th></th>
+            </thead>
+            <tbody>
+                {% for item in todo_items %}
+                      <td>{{ item['task'] }}</td>
+                      <td>{{ item['email'] }}</td>
+                      <td>{{ item['priority'] }}</td>
+                      <td>
+                        <form action="/remove" method="POST" >
+                            <input type="text" value="{{ loop.index0 }}" name="item_id" hidden></input>
+                            <input type="submit" class="button" value="Remove"></input>
+                        </form>
+                      </td>
+                    </tr>
+                {% endfor %}
+                {% if todo_items | length == 0 %}
+                    <tr>
+                        <td colspan="4" class='emptyList'>Empty List </td>
+                    </tr>
+                {% endif %}
+            </tbody>
+        </table>
+    </div>
+
+    <div class="section section--actions">
+        <form action="/clear" method="POST">
+            <input type="submit" class="button" value="Clear"></input>
+        </form>
+        <form action="/save">
+            <input type="submit" class="button" value="Save"></input>
+        </form>
+    </div>
+</body>
+</html>
