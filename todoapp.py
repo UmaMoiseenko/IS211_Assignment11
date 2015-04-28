@@ -7,6 +7,13 @@ import re
 app = Flask(__name__)
 filename = 'todo.py'
 
+errors = {
+    'task': 'Please enter task description',
+    'email': 'Please enter valid email',
+    'priority': 'Please choose priority level'
+}
+
+
 
 if (int(os.stat(filename).st_size) == 0):
     todo_items = []
@@ -18,7 +25,9 @@ else:
 
 @app.route('/')
 def hello_world():
-    return render_template('index.html', todo_items=todo_items)
+    error_field = request.args.get('key', '')
+    error = error_field and errors[error_field ] or ''
+    return render_template('index.html', error_field=error_field, error=error, todo_items=todo_items)
 
 
 
@@ -28,14 +37,14 @@ def submit():
     email = request.form['email']
     priority = request.form['priority']
 
-    if priority not in ['high', 'medium', 'low']:
-        return redirect('/')
+    if len(task.strip()) < 1:
+        return redirect('/?key=task')
 
     if not re.match('(\w+[.|\w])*@(\w+[.])*\w+',email):
-        return redirect('/')
+        return redirect('/?key=email')
 
-    if len(task.strip()) < 1:
-        return redirect('/')
+    if priority not in ['high', 'medium', 'low']:
+        return redirect('/?key=priority')
 
     task = { "task": task, "email":email, "priority": priority}
     todo_items.append(task)

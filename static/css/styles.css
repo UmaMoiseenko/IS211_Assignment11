@@ -189,3 +189,24 @@ tr:hover td {
 	text-transform: uppercase;
 	font-size: 1.85em;
 }
+
+
+/*****************************/
+/******** ERRORS  ***********/
+/*****************************/
+
+.task-error .task,
+.email-error .email,
+.priority-error .priority {
+	border: 1px solid #c81414;
+}
+
+.errorMessage {
+	color: #c81414;
+	font-size: 0.8em;
+	margin: 1rem 0.25rem;
+	text-transform: uppercase;
+	letter-spacing: 0.05em;
+}
+
+

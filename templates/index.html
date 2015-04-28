@@ -9,12 +9,12 @@
 <body>
 
     <div class="section section--submit">
-        <h2>Add new item:</h2>
+        <h2>Add new item: {{error_field}}</h2>
 
-        <form action="/submit" method="POST">
-            <input type="text" name="task"></input>
-            <input type="text" name="email"></input>
-            <select name="priority">
+        <form class="{{ error_field }}-error" action="/submit" method="POST">
+            <input class="task" type="text" name="task" placeholder="Enter new task"></input>
+            <input class="email" type="email" name="email" placeholder="Email"></input>
+            <select class="priority" name="priority">
                 <option value="default">Select Priority</option>
                 <option value="high">High</option>
                 <option value="medium">Medium</option>
@@ -22,6 +22,7 @@
             </select>
             <input type="submit" class="button" value="Submit"></input>
         </form>
+        <p class="errorMessage">{{ error }}</p>
     </div>
 
     <div class='section section--display'>
